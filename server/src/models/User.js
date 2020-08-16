@@ -19,10 +19,14 @@ const userSchema = new Schema({
         type: Date,
         required: true
     },
-    genre:{
-        type: Number,
-        required: true
-    }
+    genre: {
+        type: Schema.Types.ObjectId,
+        ref: 'Genre'
+    },
+    comments: [{
+        type: Schema.Types.ObjectId,
+        ref: 'Comment'
+    }]
 }, {
     timestamps: true
 });
