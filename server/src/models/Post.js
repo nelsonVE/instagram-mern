@@ -1,6 +1,11 @@
 const { Schema, model } = require('mongoose');
 
 const postSchema = new Schema({
+    photo: {
+        required: false,
+        type: String,
+        default: "No photo"
+    },
     description: {
         required: false,
         type: String

@@ -98,13 +98,13 @@ checkLogin = (req, res, next) => {
         User.findById(_id)
             .then((user) => {
                 req.user = user;
+                req.user.password = undefined;
+                next();
             })
             .catch((err) => {
                 res.status(400).json(err);
             })
     })
-    
-    next();
 }
 
 module.exports = {
