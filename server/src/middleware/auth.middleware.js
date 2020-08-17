@@ -1,5 +1,6 @@
 const { body, validationResult } = require('express-validator')
 const User = require('../models/User');
+const jwt = require('jsonwebtoken');
 
 validateFormSignUp = [
     body('username')
@@ -80,9 +81,36 @@ validateSignIn = async (req, res, next) => {
     next();
 }
 
+checkLogin = (req, res, next) => {
+    const { authorization } = req.headers;
+
+    if(!authorization){
+        return res.status(401).json({ errors: "You must be logged in to see this page." });
+    }
+
+    const token = authorization.replace("Bearer ", "");
+    jwt.verify(token, process.env.TOKEN, (err, payload) => {
+        if(err){
+            return res.status(401).json({ errors: "You must be logged in to see this page." });
+        }
+
+        const { _id } = payload;
+        User.findById(_id)
+            .then((user) => {
+                req.user = user;
+            })
+            .catch((err) => {
+                res.status(400).json(err);
+            })
+    })
+    
+    next();
+}
+
 module.exports = {
     validateFormSignUp,
     validateFormSignIn,
     validateSignUp,
-    validateSignIn
+    validateSignIn,
+    checkLogin
 }
