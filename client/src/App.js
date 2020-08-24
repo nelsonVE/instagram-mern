@@ -5,6 +5,7 @@ import Home from './components/Home'
 import Profile from './components/Profile'
 import Signin from './components/Signin'
 import Signup from './components/Signup'
+import CreatePost from './components/CreatePost'
 import './App.css'
 
 function App() {
@@ -12,7 +13,7 @@ function App() {
     <BrowserRouter>
       <NavBar />
       <Route path="/" exact>
-        <Signup />
+        <CreatePost />
       </Route>
       <Route path="/profile">
         <Profile />

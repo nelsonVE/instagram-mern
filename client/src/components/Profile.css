@@ -1,0 +1,42 @@
+.avatar{
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+}
+
+.btn-border{
+    cursor: pointer;
+    background-color: transparent;
+    border: 1px solid #dbdbdb;
+    padding: 3px 8px 3px 8px;
+    border-radius: 3px;
+    font-size: 12px;
+}
+
+.btn-border:active{
+    background-color: transparent;
+    border: 1px solid #dbdbdbab;
+}
+
+h5{
+    font-size: 15px;
+    margin-left: 20px;
+}
+
+.no-margin-left{
+    margin-left: 0px;
+}
+
+.gallery{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+}
+
+.item{
+    width: 30%;
+}
+
+.border-top{
+    border-top: 1px solid #d7d7d7;
+}
