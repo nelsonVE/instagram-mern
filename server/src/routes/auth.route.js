@@ -1,10 +1,9 @@
 const { Router } = require('express');
 const router = new Router();
-const { validationResult } = require('express-validator');
-const { checkLogin, validateFormSignUp, validateFormSignIn, validateSignIn, validateSignUp } = require('../middleware/auth.middleware');
+const { checkLogin, validateFormSignUp, validateFormSignIn } = require('../middleware/auth.middleware');
 const { createUser, signInUser } = require('../controllers/auth.controller');
 
-router.post('/signup', validateFormSignUp, validateSignUp, createUser);
-router.post('/signin', validateFormSignIn, validateSignIn, signInUser);
+router.post('/signup', validateFormSignUp, createUser);
+router.post('/signin', validateFormSignIn, signInUser);
 
 module.exports = router;

@@ -19,15 +19,15 @@ const Signup = () => {
             email,
             password,
             repassword,
-            birthdate: new Date(birthdate)
+            birthdate
         }).then(() => {
-
+            M.toast({html: 'User registered successfully', classes:'#81c784 green lighten-2'});
         })
         .catch((err) => {
             let html = "";
             const errors = JSON.parse(err.request.response);
             errors['errors'].map((error) => {
-                html = html + `${error.msg} for ${error.param}<br>`;
+                html = html + `${error.msg}<br>`;
             })
             M.toast({html, classes:'#c62828 red darken-3'});
         })
@@ -51,7 +51,7 @@ const Signup = () => {
                         <input value={repassword} placeholder="Repeat password" id="repassword" type="password" onChange={ (e) => setRepassword(e.target.value) } className="validate"/>
                     </div>
                     <div className="input-field col s12">
-                        <DatePicker value={birthdate} type="text" selected={birthdate} onChange={ (date) => setBirthdate(date) } placeholderText="Birthdate"/>
+                        <DatePicker dateFormat="yyyy/MM/dd" value={birthdate} type="text" selected={birthdate} onChange={ (date) => setBirthdate(date) } placeholderText="Birthdate"/>
                     </div>
                     <button className="btn waves-effect waves-light #2196f3 blue" type="submit" name="action" onClick={PostData}>Signup
                         <i className="material-icons right">send</i>

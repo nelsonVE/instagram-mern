@@ -4,26 +4,46 @@ const jwt = require('jsonwebtoken');
 
 validateFormSignUp = [
     body('username')
-        .not().isEmpty()
-        .isString(),
+        .not().isEmpty().withMessage('Username cannot be empty')
+        .isString()
+        .custom(async value => {
+            return User.find({username: value}).then(user => {
+                if (user && user.length > 0) {
+                    return Promise.reject('Username already in use');
+                }
+              });
+        }),
 
     body('password')
-        .not().isEmpty().bail()
+        .not().isEmpty().withMessage('Password cannot be empty').bail()
         .isString().bail(),
 
     body('repassword')
-        .not().isEmpty().bail()
-        .isString().bail(),
+        .not().isEmpty().withMessage('Re-Password cannot be empty').bail()
+        .isString().withMessage('Password must be a string').bail()
+        .custom((value, { req }) => {
+            if(value !== req.body.password){
+                throw new Error("Passwords doesn't match");
+            }
+
+            return true;
+        }),
 
     body('email')
-        .not().isEmpty().bail()
-        .isEmail().bail()
-        .normalizeEmail().bail(),
+        .not().isEmpty().withMessage('E-mail cannot be empty').bail()
+        .isEmail().withMessage('Invalid e-mail format').bail()
+        .normalizeEmail().bail()
+        .custom(value => {
+            return User.find({email: value}).then(user => {
+                if (user && user.length > 0) {
+                    return Promise.reject('E-mail already in use');
+                }
+            });
+        }),
 
     body('birthdate')
-        .not().isEmpty().bail()
-        .isString()
-        .isDate(),
+        .not().isEmpty().withMessage('Birthdate cannot be empty').bail(),
+
     (req, res, next) => {
         const errors = validationResult(req);
 
@@ -38,7 +58,14 @@ validateFormSignUp = [
 const validateFormSignIn = [
     body('username')
         .not().isEmpty()
-        .isString(),
+        .isString()
+        .custom(value => {
+            return User.find({username: value}).then(user => {
+                if (user == null) {
+                    return Promise.reject('E-mail already in use');
+                }
+              });
+        }),
 
     body('password')
         .not().isEmpty()
@@ -52,40 +79,6 @@ const validateFormSignIn = [
         next();
     },
 ];
-
-validateSignUp = async (req, res, next) => {
-    const user = await User.findOne({ email: req.body.email });
-    const email = await User.findOne({ username: req.body.username });
-    let errors = [];
-    if(user){
-        errors.push("Email already registered.");
-    }
-
-    if(email){
-        errors.push("Username already registered.");
-    }
-
-    if(errors.length > 0){
-        return res.status(400).json({ errors: errors });
-    }
-
-    next();
-}
-
-validateSignIn = async (req, res, next) => {
-    const user = await User.findOne({ username: req.body.username });
-    let errors = [];
-
-    if(user == null){
-        errors.push("User doesn't exists.");
-    }
-
-    if(errors.length > 0){
-        return res.status(400).json({ errors: errors });
-    }
-
-    next();
-}
 
 checkLogin = (req, res, next) => {
     const { authorization } = req.headers;
@@ -116,7 +109,5 @@ checkLogin = (req, res, next) => {
 module.exports = {
     validateFormSignUp,
     validateFormSignIn,
-    validateSignUp,
-    validateSignIn,
     checkLogin
 }
