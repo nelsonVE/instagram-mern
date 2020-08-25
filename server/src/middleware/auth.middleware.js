@@ -8,27 +8,34 @@ validateFormSignUp = [
         .isString(),
 
     body('password')
-        .not().isEmpty()
-        .isString(),
+        .not().isEmpty().bail()
+        .isString().bail(),
 
     body('repassword')
-        .not().isEmpty()
-        .isString(),
+        .not().isEmpty().bail()
+        .isString().bail(),
 
     body('email')
-        .not().isEmpty()
-        .isEmail()
-        .normalizeEmail(),
+        .not().isEmpty().bail()
+        .isEmail().bail()
+        .normalizeEmail().bail(),
+
+    body('birthdate')
+        .not().isEmpty().bail()
+        .isString()
+        .isDate(),
     (req, res, next) => {
         const errors = validationResult(req);
+
         if(!errors.isEmpty()){
-            return res.status(400).json({ errors: errors.array() });
+            return res.status(422).json({ errors: errors.array() });
         }
+        
         next();
     },
 ];
 
-validateFormSignIn = [
+const validateFormSignIn = [
     body('username')
         .not().isEmpty()
         .isString(),
@@ -50,7 +57,6 @@ validateSignUp = async (req, res, next) => {
     const user = await User.findOne({ email: req.body.email });
     const email = await User.findOne({ username: req.body.username });
     let errors = [];
-
     if(user){
         errors.push("Email already registered.");
     }
