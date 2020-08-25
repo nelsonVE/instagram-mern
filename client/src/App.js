@@ -13,7 +13,7 @@ function App() {
     <BrowserRouter>
       <NavBar />
       <Route path="/" exact>
-        <Signup />
+        <Signin />
       </Route>
       <Route path="/profile">
         <Profile />

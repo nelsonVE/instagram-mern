@@ -57,18 +57,18 @@ validateFormSignUp = [
 
 const validateFormSignIn = [
     body('username')
-        .not().isEmpty()
+        .not().isEmpty().withMessage('Username cannot be empty')
         .isString()
         .custom(value => {
             return User.find({username: value}).then(user => {
-                if (user == null) {
-                    return Promise.reject('E-mail already in use');
+                if (user && user.length == 0) {
+                    return Promise.reject('Username doesn\'t exists');
                 }
               });
         }),
 
     body('password')
-        .not().isEmpty()
+        .not().isEmpty().withMessage('Password cannot be empty')
         .isString(),
 
     (req, res, next) => {
