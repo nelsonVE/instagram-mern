@@ -1,9 +1,11 @@
 import React, { useState } from 'react';
+import { useHistory } from 'react-router-dom'
 import axios from 'axios';
 import './Signin.css'
 import M from 'materialize-css'
 
 const Signin = () => {
+    const history = useHistory();
     const [ username, setUsername ] = useState("");
     const [ password, setPassword ] = useState("");
 
@@ -16,6 +18,7 @@ const Signin = () => {
                 M.toast({html: response.data.errors, classes:'#c62828 red darken-3'});
             } else {
                 M.toast({html: 'Logged in successfully', classes:'#81c784 green lighten-2'});
+                return history.push('/home')
             }
             
         })

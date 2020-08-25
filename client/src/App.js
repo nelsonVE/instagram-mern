@@ -15,6 +15,9 @@ function App() {
       <Route path="/" exact>
         <Signin />
       </Route>
+      <Route path="/home" exact>
+        <Home />
+      </Route>
       <Route path="/profile">
         <Profile />
       </Route>
