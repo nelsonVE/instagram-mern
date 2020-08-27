@@ -39,7 +39,7 @@ authController.signInUser = (req, res) => {
                             const secret_token = process.env.TOKEN || "SECRET123TOKEN456";
                             const token = jwt.sign({ _id: user._id }, secret_token);
 
-                            res.status(200).json({ message: "Successfully signed in.", token: token });
+                            res.status(200).json({ message: "Successfully signed in.", token: token, user });
                         } else {
                             res.status(200).json({ errors: "Incorrect password." });
                         }

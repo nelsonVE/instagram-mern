@@ -2,9 +2,8 @@ const { Schema, model } = require('mongoose');
 
 const postSchema = new Schema({
     photo: {
-        required: false,
-        type: String,
-        default: "No photo"
+        required: true,
+        type: String
     },
     description: {
         required: false,

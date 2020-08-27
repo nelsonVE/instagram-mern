@@ -35,8 +35,9 @@ postController.createPost = (req, res) => {
     const { photo, description } = req.body
 
     const post = new Post({
-        photo,
         description,
+        author: req.user,
+        photo,
         author: req.user
     });
 
