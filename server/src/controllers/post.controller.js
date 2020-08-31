@@ -31,6 +31,22 @@ postController.getPost = (req, res) => {
         })
 }
 
+postController.getAllPosts = (req, res) => {
+    Post.find()
+        .populate("author","_id username")
+        .then((post) => {
+            if(post){
+                console.log(post)
+                res.status(200).json({ post });
+            } else {
+                res.status(200).json({})
+            }
+        })
+        .catch((err) => {
+            res.status(401).json({ err: "asd" });
+        })
+}
+
 postController.createPost = (req, res) => {
     const { photo, description } = req.body
 

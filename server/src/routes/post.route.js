@@ -1,6 +1,6 @@
 const { Router } = require('express');
 const router = Router();
-const { getPostsByUser, createPost, deletePost, updatePost, getPost } = require('../controllers/post.controller');
+const { getAllPosts, getPostsByUser, createPost, deletePost, updatePost, getPost } = require('../controllers/post.controller');
 const { validateFormPost } = require('../middleware/post.middleware');
 const { checkLogin } = require('../middleware/auth.middleware');
 const { route } = require('./user.route');
@@ -10,6 +10,10 @@ router.route('/:id')
     .get(getPost)
     .put(updatePost)
     .delete(deletePost);
+
+router.route('/all')
+    .all(checkLogin)
+    .post(getAllPosts)
 
 router.route('/')
     .all(validateFormPost)
