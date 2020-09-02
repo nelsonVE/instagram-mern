@@ -13,7 +13,7 @@ const NavBar = () => {
                 <li><Link to="#"><i className="small material-icons">favorite_border</i></Link></li>,
                 <li><Link to="/create"><i className="small material-icons">add_circle</i></Link></li>,
                 <li><Link to="/profile">My profile</Link></li>,
-                <li><Link 
+                <li><Link to="/signin"
                 onClick={() => {
                         localStorage.clear()
                         dispatch({ type: "CLEAR" })

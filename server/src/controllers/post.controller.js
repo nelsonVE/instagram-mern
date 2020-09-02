@@ -6,7 +6,7 @@ postController.getPostsByUser = (req, res) => {
     Post.find({ author: id })
         .then((posts) => {
             if(posts){
-                res.status(200).json({ posts: posts });
+                res.status(200).json({ posts });
             } else {
                 res.status(200).json({})
             }

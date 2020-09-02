@@ -36,8 +36,8 @@ const Home = () => {
                                     <img src={item.photo}/>
                                 </div>
                                 <div className="card-content p-2">
-                                    <i class="small material-icons">favorite_border</i>
-                                    <i class="small material-icons ml-2">chat_bubble_outline</i><br/>
+                                    <i className="small material-icons">favorite_border</i>
+                                    <i className="small material-icons ml-2">chat_bubble_outline</i><br/>
                                     <p>{item.description}</p>
                                     <input type="text" placeholder="Add a comment"/>
                                 </div>
