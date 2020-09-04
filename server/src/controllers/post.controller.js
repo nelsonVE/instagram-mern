@@ -1,5 +1,6 @@
 const postController = {};
 const Post = require('../models/Post');
+const { post } = require('../routes/user.route');
 
 postController.getPostsByUser = (req, res) => {
     const { id } = req.params;
@@ -65,6 +66,42 @@ postController.createPost = (req, res) => {
             res.status(400).json({ errors: err });
         })
 
+}
+
+postController.likePost = (req, res) => {
+    const { id } = req.body;
+    Post.findByIdAndUpdate(id, {
+        $push:{
+            likes:req.user._id
+        }
+    }, {
+        new: true
+    })
+    .exec((err, result) => {
+        if(err){
+            return res.status(422).json({error: err})
+        }
+
+        res.json(result);
+    })
+}
+
+postController.unlikePost = (req, res) => {
+    const { id } = req.body;
+    Post.findByIdAndUpdate(id, {
+        $pull:{
+            likes:req.user._id
+        }
+    }, {
+        new: true
+    })
+    .exec((err, result) => {
+        if(err){
+            return res.status(422).json({error: err})
+        }
+
+        res.json(result);
+    })
 }
 
 postController.updatePost = (req, res) => {
